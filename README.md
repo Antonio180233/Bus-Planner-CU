@@ -4,7 +4,7 @@ This is a project for a class called software innovation where the problem was t
 
 
 1-Download or clone the project
----Open a  cmd in tsp project
+Open a  cmd in tsp project
 2-execute npm install yarn
 3-run a yarn build in TSP.
 
