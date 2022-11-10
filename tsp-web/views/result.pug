@@ -1,0 +1,58 @@
+extends layout.pug 
+
+block head 
+		link(rel="stylesheet", href="/static/stylesheets/result.css")
+		script(src="https://code.jquery.com/jquery-3.6.1.min.js", integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=", crossorigin="anonymous")
+
+block body 
+	header.py-3.mb-4.border-bottom
+		.container.d-flex.flex-wrap.justify-content-center
+			h1.d-flex.align-items-center.mb-3.mb-lg-0.me-lg-auto.text-dark.text-decoration-none 
+				span Resultados
+		
+	.container 
+		p Con esta herramienta puedes obtener una recomendación de cómo distribuir los autobuses disponibles del IndioBus dependiendo de los alumnos que deba de recoger en cada parada disponible.
+
+		.d-grid.gap-2
+			button.btn.btn-secondary(type="button") Copiar enlace para compartir resultados
+		
+		br
+
+		each bus in result 
+			.row 
+				.col-8 
+					.roadline 
+						img(src="/static/images/bus-school.png", width="32", style="left: -5px")
+						each stop in bus.stops 
+							.roadline__stop(data-bs-toggle="tooltip", data-bs-title=`${ stop.stop }: ${ stop.passengers }`)
+						.roadline__stop(data-bs-toggle="tooltip", data-bs-title="CU")
+				.col-4.d-flex.align-items-center
+					ul.muted
+						each stop in bus.stops 
+							li 
+								b #{ stop.stop }
+								| : #{ stop.passengers }
+						hr
+						li
+							b Pasajeros: 
+							| #{ bus.stops.reduce( ( count, item ) => count + item.passengers, 0 ) }
+						li 
+							b Tiempo: 
+							-
+								let time = 0
+								for ( let i = 1; i < bus.stops.length; i++ ) {
+									const stopA = bus.stops[ i - 1 ].stop
+									const stopB = bus.stops[ i ].stop
+									const key = [ stopA, stopB ].sort().join( '-' )
+									time += bus.cityMap.timeDistances[ key ]
+								}
+								const lastKey = [ bus.stops.at( -1 ).stop, 'CU' ].sort().join( '-' )
+								time += bus.cityMap.timeDistances[ lastKey ]
+							| #{ time } minutos
+			hr(style="margin-top: 24px")
+
+	script
+		| window.data = !{ JSON.stringify( data ) }
+		| window.result = !{ JSON.stringify( result ) }
+
+	script(type="module", src="/static/javascript/result.js")

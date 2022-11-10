@@ -1,0 +1,29 @@
+extends layout.pug 
+
+block body 
+	header.py-3.mb-4.border-bottom
+		.container.d-flex.flex-wrap.justify-content-center
+			h2.d-flex.align-items-center.mb-3.mb-lg-0.me-lg-auto.text-dark.text-decoration-none 
+				span Bienvenido al planeador de rutas
+		
+	.container 
+		p Con esta herramienta puedes obtener una recomendación de cómo distribuir los autobuses disponibles del IndioBus dependiendo de los alumnos que deba de recoger en cada parada disponible.
+		p Para comenzar, solo necesitas llenar los campos del formulario con la cantidad de personas que se espera recoger en cada punto.
+	
+	.container 
+		form(autocomplete="off")
+			each stop in stops
+				.row.g-3.align-items-center.mt-1
+					.col-4.text-end
+						label.col-form-label(for=stop)= stop
+					.col
+						input.form-control(type="number", name=stop, min="0", value="0")
+		
+		.total-count.text-center.mt-2.mb-2
+			| Total de pasajeros: 
+			span.total-count__value 0
+
+		.d-grid.gap-2
+			button.btn.btn-primary(type="button") Enviar
+	
+	script(type="module", src="/static/javascript/index.js")

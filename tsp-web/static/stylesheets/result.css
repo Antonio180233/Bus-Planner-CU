@@ -1,0 +1,24 @@
+footer {
+	display: none;
+}
+.roadline {
+	align-items: center;
+	background-color: #ccc;
+	border-radius: 5px;
+	display: flex;
+	height: 5px;
+	justify-content: space-between;
+	margin-top: 100px;
+	position: relative;
+  }
+  .roadline img {
+	position: absolute;
+	top: -50px;
+  }
+  .roadline .roadline__stop {
+	--size: 16px;
+	background-color: #ccc;
+	border-radius: 10px;
+	height: var(--size);
+	width: var(--size);
+  }
